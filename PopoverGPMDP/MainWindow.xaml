@@ -1,0 +1,33 @@
+﻿<Window x:Class="PopoverGPMDP.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Width="400" Height="100"
+        WindowStyle="None"
+        Topmost="True"
+        ShowInTaskbar="False"
+        Visibility="Collapsed"
+        AllowsTransparency="True"
+        Top="0" Left="0">
+    
+    <Window.Background>
+        <SolidColorBrush Color="#0a0a0e" Opacity="0"></SolidColorBrush>
+    </Window.Background>
+    
+    <Grid Background="#0a0a0e">
+        <Image Name="AlbumArt" Width="100" Height="100" Source="img/missing.png" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <Image Width="100" Height="100" Source="img/fade.png" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <Image Name="PlayIcon" Width="30" Height="30" Source="img/play.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="100, 0, 0, 10" Visibility="Collapsed" />
+        <Image Name="PauseIcon" Width="30" Height="30" Source="img/pause.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="100, 0, 0, 10" />
+        <Image Name="RepeatOffIcon" Width="30" Height="30" Source="img/repeat_off.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0, 0, 0, 10" />
+        <Image Name="RepeatOnIcon" Width="30" Height="30" Source="img/repeat_on.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0, 0, 0, 10" Visibility="Collapsed" />
+        <Image Name="RepeatOneIcon" Width="30" Height="30" Source="img/repeat_one.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0, 0, 0, 10" Visibility="Collapsed" />
+        <Image Name="ShuffleOffIcon" Width="30" Height="30" Source="img/shuffle_off.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="200, 0, 0, 10" />
+        <Image Name="ShuffleOnIcon" Width="30" Height="30" Source="img/shuffle_on.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="200, 0, 0, 10" Visibility="Collapsed" />
+        <TextBlock Name="SongText" Foreground="White" Text="Song" Padding="110,10,0,0" FontFamily="Verdana" FontSize="16" />
+        <TextBlock Name="ArtistAlbumText" Foreground="LightGray" Text="Artist - Album" Padding="110,35,0,0" FontFamily="Verdana" FontSize="12" />
+        <Rectangle Name="ProgressBar" Width="0" Height="2" Fill="DeepSkyBlue" VerticalAlignment="Top" HorizontalAlignment="Left" />
+    </Grid>
+</Window>
