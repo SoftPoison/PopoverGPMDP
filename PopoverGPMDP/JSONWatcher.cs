@@ -37,8 +37,13 @@ namespace PopoverGPMDP {
             set => _onLoad = value;
         }
 
+        /// <summary>
+        /// Watches a JSON formatted file for updates based on a user defined update method and structure type
+        /// </summary>
+        /// <param name="filename">The file to watch</param>
         public JsonWatcher(string filename) {
             _filename = filename;
+            
             _thread = new Thread(MainLoop);
             
         }
@@ -75,6 +80,9 @@ namespace PopoverGPMDP {
             }
         }
 
+        /// <summary>
+        /// Starts the watcher
+        /// </summary>
         public void Start() {
             if (_watching) return;
             
@@ -82,6 +90,10 @@ namespace PopoverGPMDP {
             _thread.Start();
         }
 
+        /// <summary>
+        /// Stops the watcher
+        /// Watcher can be restarted using <see cref="Start"/>
+        /// </summary>
         public void Stop() {
             _watching = false;
         }

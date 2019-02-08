@@ -1,4 +1,7 @@
 ﻿namespace PopoverGPMDP.Structures {
+    /// <summary>
+    /// Contents are auto-filled by DataContractJsonSerializer
+    /// </summary>
     public class Time {
         public int current;
         public int total;
@@ -9,7 +12,6 @@
             var t = (Time) obj;
             
             return current == t.current && total == t.total;
-
         }
     }
 }

@@ -24,17 +24,16 @@ namespace PopoverGPMDP {
         public MainWindow() {
             InitializeComponent();
 
-            var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Google Play Music Desktop Player\\json_store\\playback.json");
+            var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Google Play Music Desktop Player", "json_store", "playback.json");
 
             var fileWatcher = new JsonWatcher<Playback, PlaybackUpdateEvent>(fileName) {
                 CheckUpdate = (c, p) => new PlaybackUpdateEvent(c, p),
                 OnUpdate = OnPlaybackUpdate,
                 OnLoad = p => {
-                    if (p.IsNull() || p.song.IsNull())
+                    if (p.IsNull())
                         return;
-                    
-                    Dispatcher.Invoke(new UpdateSongCallback(UpdateSong), p.song);
-                    Dispatcher.InvokeAsync(Popover);
+
+                    Dispatcher.Invoke(new JsonWatcher<Playback, PlaybackUpdateEvent>.DoOnUpdate(OnPlaybackUpdate), new PlaybackUpdateEvent(p, new Playback()));
                 }
             };
 
@@ -43,18 +42,15 @@ namespace PopoverGPMDP {
                 Visibility = Visibility.Hidden;
             };
             Deactivated += WindowDeactivated;
-            
-            var thread = new Thread(MouseOverThreadLoop);
-            thread.Start();
         }
 
+        /// <summary>
+        /// Uses win32 hooks to check whether the cursor is in the region where the window should be
+        /// </summary>
+        /// <param name="obj"></param>
         private void MouseOverThreadLoop(object obj) {
-            while (true) {
+            while (_poppingOver) {
                 Thread.Sleep(10);
-                
-                if (!_poppingOver) {
-                    continue;
-                }
 
                 Dispatcher.Invoke(() => {
                     var pos = PointToScreen(W32Hooks.GetMousePosition());
@@ -67,7 +63,6 @@ namespace PopoverGPMDP {
                     }
                 });
             }
-            // ReSharper disable once FunctionNeverReturns
         }
 
         private static void WindowDeactivated(object sender, EventArgs e) {
@@ -76,6 +71,8 @@ namespace PopoverGPMDP {
         }
 
         private void OnPlaybackUpdate(PlaybackUpdateEvent e) {
+            //only update on the events we want
+            
             if (e.TimeUpdated)
                 Dispatcher.Invoke(() => ProgressBar.Width = e.Current.time.current * Width / e.Current.time.total);
 
@@ -92,7 +89,7 @@ namespace PopoverGPMDP {
                 Dispatcher.Invoke(new UpdateSongCallback(UpdateSong), e.Current.song);
 
             if (e.ImportantUpdate)
-                Dispatcher.InvokeAsync(Popover);
+                Dispatcher.Invoke(Popover);
         }
 
         private void UpdateRepeat(string mode) {
@@ -159,6 +156,9 @@ namespace PopoverGPMDP {
             _poppingOver = true;
             Visibility = Visibility.Visible;
             
+            new Thread(MouseOverThreadLoop).Start();
+            
+            //TODO: find a better way to do animations
             for (var x = -(int)Height; x <= 0; x++) {
                 Top = x > 0 ? 0 : x;
                 if (x % 7 == 0)

@@ -1,4 +1,7 @@
 ﻿namespace PopoverGPMDP.Structures {
+    /// <summary>
+    /// Contents are auto-filled by DataContractJsonSerializer
+    /// </summary>
     public struct Playback {
         public bool playing;
         public Song song;

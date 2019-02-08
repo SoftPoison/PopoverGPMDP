@@ -1,5 +1,5 @@
 ﻿namespace PopoverGPMDP.Structures {
-    public class PlaybackUpdateEvent : IUpdateEvent {
+    public struct PlaybackUpdateEvent : IUpdateEvent {
         private readonly bool _updated;
 
         public bool PlayStateUpdated { get; }
@@ -17,7 +17,16 @@
             Current = current;
             Previous = previous;
 
-            if (current.IsNull() || previous.IsNull() || current.IsNull()) return;
+            if (current.IsNull()) {
+                _updated = false;
+                PlayStateUpdated = false;
+                SongUpdated = false;
+                TimeUpdated = false;
+                ShuffleUpdated = false;
+                RepeatUpdated = false;
+                ImportantUpdate = false;
+                return;
+            }
             
             PlayStateUpdated = current.playing != previous.playing;
             SongUpdated = !current.song.Equals(previous.song);

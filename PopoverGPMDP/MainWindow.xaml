@@ -19,8 +19,8 @@
     <Grid Background="#0a0a0e">
         <Image Name="AlbumArt" Width="100" Height="100" Source="img/missing.png" VerticalAlignment="Top" HorizontalAlignment="Left" />
         <Image Width="100" Height="100" Source="img/fade.png" VerticalAlignment="Top" HorizontalAlignment="Left" />
-        <Image Name="PlayIcon" Width="30" Height="30" Source="img/play.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="100, 0, 0, 10" Visibility="Collapsed" />
-        <Image Name="PauseIcon" Width="30" Height="30" Source="img/pause.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="100, 0, 0, 10" />
+        <Image Name="PlayIcon" Width="30" Height="30" Source="img/play.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="100, 0, 0, 10" />
+        <Image Name="PauseIcon" Width="30" Height="30" Source="img/pause.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="100, 0, 0, 10" Visibility="Collapsed" />
         <Image Name="RepeatOffIcon" Width="30" Height="30" Source="img/repeat_off.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0, 0, 0, 10" />
         <Image Name="RepeatOnIcon" Width="30" Height="30" Source="img/repeat_on.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0, 0, 0, 10" Visibility="Collapsed" />
         <Image Name="RepeatOneIcon" Width="30" Height="30" Source="img/repeat_one.png" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0, 0, 0, 10" Visibility="Collapsed" />
