@@ -17,7 +17,7 @@
             Current = current;
             Previous = previous;
 
-            if (current == null || previous == null || current.IsNull()) return;
+            if (current.IsNull() || previous.IsNull() || current.IsNull()) return;
             
             PlayStateUpdated = current.playing != previous.playing;
             SongUpdated = !current.song.Equals(previous.song);

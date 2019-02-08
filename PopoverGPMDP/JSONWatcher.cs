@@ -2,12 +2,11 @@
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Threading;
-using PopoverGPMDP.Structures;
 
 namespace PopoverGPMDP {
     public class JsonWatcher<TJsonStruct, TEvent> where TEvent : IUpdateEvent {
         private readonly string _filename;
-        private readonly DataContractJsonSerializer _serializer = new DataContractJsonSerializer(typeof(Playback));
+        private readonly DataContractJsonSerializer _serializer = new DataContractJsonSerializer(typeof(TJsonStruct));
         private readonly Thread _thread;
         private bool _watching;
         private bool _unloaded = true;

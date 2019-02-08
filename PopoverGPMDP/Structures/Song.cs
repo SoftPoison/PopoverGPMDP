@@ -1,5 +1,5 @@
 ﻿namespace PopoverGPMDP.Structures {
-    public class Song {
+    public struct Song {
         public string title;
         public string artist;
         public string album;

@@ -1,5 +1,5 @@
 ﻿namespace PopoverGPMDP.Structures {
-    public class Playback {
+    public struct Playback {
         public bool playing;
         public Song song;
         public Time time;
@@ -8,7 +8,7 @@
 //        public int volume;
 
         public bool IsNull() {
-            return song == null || song.IsNull();
+            return song.IsNull();
         }
     }
 }
