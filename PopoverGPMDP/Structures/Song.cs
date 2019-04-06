@@ -1,12 +1,15 @@
-﻿namespace PopoverGPMDP.Structures {
+﻿using System.Runtime.Serialization;
+
+namespace PopoverGPMDP.Structures {
     /// <summary>
     /// Contents are auto-filled by DataContractJsonSerializer
     /// </summary>
+    [DataContract]
     public struct Song {
-        public string title;
-        public string artist;
-        public string album;
-        public string albumArt;
+        [DataMember] public string title;
+        [DataMember] public string artist;
+        [DataMember] public string album;
+        [DataMember] public string albumArt;
 
         public bool IsNull() {
             return title == null;
