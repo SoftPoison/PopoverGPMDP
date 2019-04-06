@@ -15,7 +15,7 @@ I also wanted a notification of some sort when the play state or song has change
 * Some sort of configuration system that doesn't require recompiling, probably via a JSON file
 * Different config options
   * Background/highlight/text colours
-    * Maybe use the SystemColors class for the default colours
+    * Could sync with GPMDP for default colours as .settings.json exists
   * Position
   * Popover duration / speed
   * File checking frequency
