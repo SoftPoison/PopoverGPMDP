@@ -2,6 +2,8 @@
 
 Popover for Google Play Music Desktop player for Windows.
 
+![Screenshot](https://i.imgur.com/HN9Yhmf.png)
+
 Pull requests welcome.
 
 ## Motivation
@@ -10,13 +12,19 @@ Windows' track information in the volume overlay thing is awful - it takes too l
 
 I also wanted a notification of some sort when the play state or song has changed, which Windows could not do. Hence, this project was born.
 
+## Current features
+
+* It works (at least on my system (and at least as far as I have tested))
+* Album art is automatically downloaded from The Internet
+* It doesn't get in the way of your clicks
+* Themeing
+  * Either syncronised with GPMDP itself or your own custom theme. The choice is yours
+
 ## Planned features
 
-* Some sort of configuration system that doesn't require recompiling, probably via a JSON file
 * Different config options
-  * Background/highlight/text colours
-    * Could sync with GPMDP for default colours as .settings.json exists
   * Position
+  * Animation direction
   * Popover duration / speed
   * File checking frequency
 * An easy GUI based configuration
