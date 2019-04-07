@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using PopoverGPMDP.Structures;
+
 // ReSharper disable InheritdocConsiderUsage
 
 namespace PopoverGPMDP {
@@ -12,6 +16,8 @@ namespace PopoverGPMDP {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow {
+        private readonly ConfigManager _configManager;
+
         private bool _poppingOver;
         private bool _extendPopover;
 
@@ -24,24 +30,76 @@ namespace PopoverGPMDP {
         public MainWindow() {
             InitializeComponent();
 
-            var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Google Play Music Desktop Player", "json_store", "playback.json");
+            _configManager = new ConfigManager("config.json", OnConfigUpdated);
 
-            var fileWatcher = new JsonWatcher<Playback, PlaybackUpdateEvent>(fileName) {
+            var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                "Google Play Music Desktop Player", "json_store", "playback.json");
+
+            var fileWatcher = new JsonWatcher<Playback, PlaybackUpdateEvent>(fileName, 150) {
                 CheckUpdate = (c, p) => new PlaybackUpdateEvent(c, p),
                 OnUpdate = OnPlaybackUpdate,
                 OnLoad = p => {
                     if (p.IsNull())
                         return;
 
-                    Dispatcher.Invoke(new JsonWatcher<Playback, PlaybackUpdateEvent>.DoOnUpdate(OnPlaybackUpdate), new PlaybackUpdateEvent(p, new Playback()));
+                    Dispatcher.Invoke(new JsonWatcher<Playback, PlaybackUpdateEvent>.DoOnUpdate(OnPlaybackUpdate),
+                        new PlaybackUpdateEvent(p, new Playback()));
                 }
             };
 
             Loaded += (s, e) => {
                 fileWatcher.Start();
                 Visibility = Visibility.Hidden;
+                _configManager.Load();
             };
             Deactivated += WindowDeactivated;
+        }
+
+        private void OnConfigUpdated() {
+            Dispatcher.Invoke(() => {
+                // decode the colours
+
+                var backgroundColorInt = int.Parse(_configManager.CurrentConfig.BackgroundColor.Substring(1),
+                    NumberStyles.HexNumber);
+                var highlightColorInt = int.Parse(_configManager.CurrentConfig.HighlightColor.Substring(1),
+                    NumberStyles.HexNumber);
+                var textColorInt = int.Parse(_configManager.CurrentConfig.TextColor.Substring(1),
+                    NumberStyles.HexNumber);
+
+                var backgroundColor = Color.FromRgb(
+                    (byte) (backgroundColorInt >> 16),
+                    (byte) ((backgroundColorInt >> 8) & 0xff),
+                    (byte) (backgroundColorInt & 0xff)
+                );
+                var highlightColor = Color.FromRgb(
+                    (byte) (highlightColorInt >> 16),
+                    (byte) ((highlightColorInt >> 8) & 0xff),
+                    (byte) (highlightColorInt & 0xff)
+                );
+                var textColor = Color.FromRgb(
+                    (byte) (textColorInt >> 16),
+                    (byte) ((textColorInt >> 8) & 0xff),
+                    (byte) (textColorInt & 0xff)
+                );
+
+                // tint the images by the specific colours
+
+                Fade.Source = Utils.TintImage("fade.png", backgroundColorInt);
+                PlayIcon.Source = Utils.TintImage("play.png", textColorInt);
+                PauseIcon.Source = Utils.TintImage("pause.png", textColorInt);
+                RepeatOffIcon.Source = Utils.TintImage("repeat.png", textColorInt);
+                RepeatOnIcon.Source = Utils.TintImage("repeat.png", highlightColorInt);
+                RepeatOneIcon.Source = Utils.TintImage("repeat_one.png", highlightColorInt);
+                ShuffleOffIcon.Source = Utils.TintImage("shuffle.png", textColorInt);
+                ShuffleOnIcon.Source = Utils.TintImage("shuffle.png", highlightColorInt);
+
+                // colour the non-image elements
+                
+                Grid.Background = new SolidColorBrush(backgroundColor);
+                ProgressBar.Fill = new SolidColorBrush(highlightColor);
+                SongText.Foreground = new SolidColorBrush(textColor);
+                ArtistAlbumText.Foreground = new SolidColorBrush(textColor);
+            });
         }
 
         /// <summary>
@@ -72,7 +130,7 @@ namespace PopoverGPMDP {
 
         private void OnPlaybackUpdate(PlaybackUpdateEvent e) {
             //only update on the events we want
-            
+
             if (e.TimeUpdated)
                 Dispatcher.Invoke(() => ProgressBar.Width = e.Current.time.current * Width / e.Current.time.total);
 
@@ -81,7 +139,7 @@ namespace PopoverGPMDP {
 
             if (e.ShuffleUpdated)
                 Dispatcher.Invoke(new BooleanCallback(UpdateShuffle), e.Current.shuffle.Equals("ALL_SHUFFLE"));
-            
+
             if (e.PlayStateUpdated)
                 Dispatcher.Invoke(new BooleanCallback(UpdatePlayPause), e.Current.playing);
 
@@ -143,7 +201,7 @@ namespace PopoverGPMDP {
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(song.albumArt, UriKind.Absolute);
             bitmap.EndInit();
-            
+
             AlbumArt.Source = bitmap;
         }
 
@@ -155,11 +213,11 @@ namespace PopoverGPMDP {
 
             _poppingOver = true;
             Visibility = Visibility.Visible;
-            
+
             new Thread(MouseOverThreadLoop).Start();
-            
-            //TODO: find a better way to do animations
-            for (var x = -(int)Height; x <= 0; x++) {
+
+            //TODO: find a better way to do animations, perhaps using PopoverWindow
+            for (var x = -(int) Height; x <= 0; x++) {
                 Top = x > 0 ? 0 : x;
                 if (x % 7 == 0)
                     await Task.Delay(1);
@@ -168,7 +226,7 @@ namespace PopoverGPMDP {
             do {
                 _extendPopover = false;
                 await Task.Delay(4000);
-            } while(_extendPopover);
+            } while (_extendPopover);
 
             for (var x = 0; x >= -Height; x--) {
                 Top = x;

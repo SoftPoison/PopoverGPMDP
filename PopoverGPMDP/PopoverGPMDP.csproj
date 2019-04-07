@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,11 +34,15 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>C:\Windows\Microsoft.NET\Framework64\v4.0.30319\System.Drawing.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xaml">
@@ -52,10 +57,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigManager.cs" />
+    <Compile Include="Structures\Config.cs" />
+    <Compile Include="Structures\GpmdpSettings.cs" />
+    <Compile Include="Structures\GpmdpSettingsEvent.cs" />
     <Compile Include="Structures\Playback.cs" />
     <Compile Include="Structures\PlaybackUpdateEvent.cs" />
     <Compile Include="Structures\Song.cs" />
     <Compile Include="Structures\Time.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="W32Hooks.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -93,11 +103,9 @@
     <Resource Include="img\fade.png" />
     <Resource Include="img\play.png" />
     <Resource Include="img\pause.png" />
-    <Resource Include="img\repeat_off.png" />
-    <Resource Include="img\repeat_on.png" />
     <Resource Include="img\repeat_one.png" />
-    <Resource Include="img\shuffle_off.png" />
-    <Resource Include="img\shuffle_on.png" />
+    <Resource Include="img\repeat.png" />
+    <Resource Include="img\shuffle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

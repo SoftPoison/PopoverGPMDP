@@ -6,15 +6,22 @@ namespace PopoverGPMDP.Structures {
     /// </summary>
     [DataContract]
     public struct Time {
-        [DataMember] public int current;
-        [DataMember] public int total;
+        [DataMember] public readonly int current;
+        [DataMember] public readonly int total;
+
+        public bool Equals(Time other) {
+            return current == other.current && total == other.total;
+        }
 
         public override bool Equals(object obj) {
-            if (!(obj is Time)) return false;
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is Time time && Equals(time);
+        }
 
-            var t = (Time) obj;
-
-            return current == t.current && total == t.total;
+        public override int GetHashCode() {
+            unchecked {
+                return (current * 397) ^ total;
+            }
         }
     }
 }

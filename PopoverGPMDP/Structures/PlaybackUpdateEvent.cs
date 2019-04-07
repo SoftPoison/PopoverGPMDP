@@ -2,16 +2,16 @@
     public struct PlaybackUpdateEvent : IUpdateEvent {
         private readonly bool _updated;
 
-        public bool PlayStateUpdated { get; }
-        public bool SongUpdated { get; }
-        public bool TimeUpdated { get; }
-        public bool ShuffleUpdated { get; }
-        public bool RepeatUpdated { get; }
-        
-        public bool ImportantUpdate { get; }
-        
-        public Playback Current { get; }
-        public Playback Previous { get; }
+        public readonly bool PlayStateUpdated;
+        public readonly bool SongUpdated;
+        public readonly bool TimeUpdated;
+        public readonly bool ShuffleUpdated;
+        public readonly bool RepeatUpdated;
+
+        public readonly bool ImportantUpdate;
+
+        public readonly Playback Current;
+        public readonly Playback Previous;
 
         public PlaybackUpdateEvent(Playback current, Playback previous) {
             Current = current;

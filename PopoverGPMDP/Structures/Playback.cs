@@ -6,11 +6,11 @@ namespace PopoverGPMDP.Structures {
     /// </summary>
     [DataContract]
     public struct Playback {
-        [DataMember] public bool playing;
+        [DataMember] public readonly bool playing;
         [DataMember] public Song song;
         [DataMember] public Time time;
-        [DataMember] public string shuffle;
-        [DataMember] public string repeat;
+        [DataMember] public readonly string shuffle;
+        [DataMember] public readonly string repeat;
 
 //        [DataMember]
 //        public int volume;

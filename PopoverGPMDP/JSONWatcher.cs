@@ -6,6 +6,7 @@ using System.Threading;
 namespace PopoverGPMDP {
     public class JsonWatcher<TJsonStruct, TEvent> where TEvent : IUpdateEvent {
         private readonly string _filename;
+        private readonly int _updateTimeout;
         private readonly DataContractJsonSerializer _serializer = new DataContractJsonSerializer(typeof(TJsonStruct));
         private readonly Thread _thread;
         private bool _watching;
@@ -41,8 +42,10 @@ namespace PopoverGPMDP {
         /// Watches a JSON formatted file for updates based on a user defined update method and structure type
         /// </summary>
         /// <param name="filename">The file to watch</param>
-        public JsonWatcher(string filename) {
+        /// <param name="updateTimeout">The number of milliseconds between updates</param>
+        public JsonWatcher(string filename, int updateTimeout) {
             _filename = filename;
+            _updateTimeout = updateTimeout;
             
             _thread = new Thread(MainLoop);
             
@@ -65,7 +68,7 @@ namespace PopoverGPMDP {
                     }
                 }
 
-                Thread.Sleep(150);
+                Thread.Sleep(_updateTimeout);
             }
         }
 
