@@ -11,7 +11,7 @@ namespace PopoverGPMDP {
         private readonly string _configFile;
         private readonly DataContractJsonSerializer _serializer = new DataContractJsonSerializer(typeof(Config));
 
-        private JsonWatcher<GpmdpSettings, GpmdpSettingsEvent> _fileWatcher;
+        private readonly JsonWatcher<GpmdpSettings, GpmdpSettingsEvent> _fileWatcher;
         private Config _config;
         public Config CurrentConfig => _config;
 

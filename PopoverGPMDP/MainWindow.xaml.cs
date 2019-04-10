@@ -99,6 +99,13 @@ namespace PopoverGPMDP {
                 ProgressBar.Fill = new SolidColorBrush(highlightColor);
                 SongText.Foreground = new SolidColorBrush(textColor);
                 ArtistAlbumText.Foreground = new SolidColorBrush(textColor);
+                
+                // position the window
+
+                PopoverWindow.Left = _configManager.CurrentConfig.XPos;
+                
+                // currently does not work due to how animations are handled
+                PopoverWindow.Top = _configManager.CurrentConfig.YPos;
             });
         }
 
